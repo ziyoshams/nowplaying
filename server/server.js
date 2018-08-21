@@ -1,16 +1,28 @@
+const path = require('path');
 const express = require('express');
-var os = require('os');
 const app = express();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3033;
 
-app.listen(PORT, () => {
-  console.log(`App is running on localhost:${PORT}`);
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 });
 
-app.get('/', (req, res, next) => {
+
+app.get('/location', (req, res) => {
   var getClientAddress = function(req) {
     return (req.headers['X-Forwarded-For'] || '').split(',')[0] || req.connection.remoteAddress;
   };
-  res.send(getClientAddress(req));
+
+  let ip = getClientAddress(req).split(':').pop();
+  console.log(ip);
+});
+
+
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.listen(PORT, () => {
+  console.log(`App is running on localhost:${PORT}`);
 });
