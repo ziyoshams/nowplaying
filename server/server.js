@@ -3,26 +3,24 @@ const express = require('express');
 const app = express();
 
 const PORT = process.env.PORT || 3033;
+const getTweets = require('./utils/getTweets');
 
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 });
 
-
-app.get('/location', (req, res) => {
-  var getClientAddress = function(req) {
-    return (req.headers['X-Forwarded-For'] || '').split(',')[0] || req.connection.remoteAddress;
-  };
-
-  let ip = getClientAddress(req).split(':').pop();
-  console.log(ip);
+app.get('/tweets/:long/:lat', async (req, res) => {
+  let { long, lat } = req.params;
+  try {
+    let tweets = await getTweets(long, lat);
+    res.send(tweets);
+  } catch (error) {
+    res.status(400).send('Something went wrong.');
+  }
 });
 
-
-
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
 app.listen(PORT, () => {
-  console.log(`App is running on localhost:${PORT}`);
+  console.log(`app is running on localhost:${PORT}`);
 });
