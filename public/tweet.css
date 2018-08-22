@@ -25,6 +25,7 @@
 
 .single_tweet{
   flex: 1;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   border: 1px solid #eee;
