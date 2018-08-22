@@ -1,21 +1,5 @@
-.avatar{
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 1px solid #000;
-  float: left;
-  margin-right: 10px;
-}
 
-.icon{
-  margin: 0px 5px;
-  font-size: 1.2rem;
-  color: #777;
-}
-
-.container{
-  max-width: 960px;
-}
+/* Twitter container styles */
 
 .tweets{
   display: flex;
@@ -47,6 +31,7 @@
   flex: 1 0;
   background: #eee;
   border-radius: 3px;
+  margin: 10px;
 }
 
 .tweet_side{
@@ -57,30 +42,4 @@
 .tweet{
   display: flex;
   flex-direction: column;
-}
-
-.tweet__header{
-  flex: 1;
-  display: flex;
-}
-
-.tweet__header__user{
-  flex: 1;
-}
-
-.tweet__header__logo{
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-
-.tweet__body{
-  flex: 1;
-}
-
-.tweet__footer{
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
 }

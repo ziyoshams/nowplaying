@@ -10,7 +10,7 @@ const client = new Twitter({
 function getTweets(long, lat) {
   return new Promise((resolve, reject) => {
     client.get(
-      `/search/tweets.json?q=%23nowplaying+%23Nowplaying+%23NowPlaying&geocode=${long},${lat},100km&result_type=recent`,
+      `/search/tweets.json?q=%23nowplaying+%23Nowplaying+%23NowPlaying&geocode=${long},${lat},30mi&result_type=recent`,
       (err, tweets) => {
         if (!err) {
           let result = tweets.statuses.map(element => {

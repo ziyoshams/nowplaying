@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Tweet from './tweet';
+import Form from './form';
+import Info from './info'
 
 class Main extends Component {
   constructor() {
@@ -50,6 +52,8 @@ class Main extends Component {
     if (!this.state.error) {
       return (
         <div className="container">
+          <Info/>
+          <Form />
           <div id="tweets" className="tweets">
             {this.state.initialRender ? <h1>Loading...</h1> : <Tweet tweets={this.state.tweets} />}
           </div>
