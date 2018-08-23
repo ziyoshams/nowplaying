@@ -15,8 +15,8 @@ class Form extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    console.log('sending', this.state)
-    let data = await axios.post('/tweet', this.state)
+    console.log('sending', this.state);
+    let data = await axios.post('/tweet', this.state);
     console.log('response from the server', data);
   }
 
@@ -56,7 +56,10 @@ class Form extends Component {
         <div className="column is-2">
           <div className="control is-centered">
             <button type="submit" className="button is-info">
-              Tweet to #nowplaying
+              <span className="icon">
+                <i className="fab fa-twitter" />
+              </span>
+              <span>Tweet to #nowplaying</span>
             </button>
           </div>
         </div>

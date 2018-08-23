@@ -9,6 +9,7 @@ class Main extends Component {
     super();
     this.state = {
       tweets: [],
+      location: '',
       error: '',
       initialRender: true
     };
@@ -20,16 +21,12 @@ class Main extends Component {
       console.log(positions);
       let { data } = await axios.get(`/tweets/${positions[0]}/${positions[1]}`);
       this.setState({
-        tweets: data,
+        tweets: data.tweets,
+        location: data.location,
         initialRender: false
       });
 
-      await data.map((tweet, i) => {
-        return twttr.widgets.createTweet(`${tweet.id}`, document.getElementById(`tweet${i}`), {
-          conversation: 'none',
-          dnt: true
-        });
-      });
+      twttr.widgets.load();
     } catch (error) {
       this.setState({
         error: 'Something is not Right'
@@ -52,10 +49,10 @@ class Main extends Component {
     if (!this.state.error) {
       return (
         <div className="container">
-          <Info/>
+          <Info location={this.state.location}/>
           <Form />
           <div id="tweets" className="tweets">
-            {this.state.initialRender ? <h1>Loading...</h1> : <Tweet tweets={this.state.tweets} />}
+            {this.state.initialRender ? <a className="button is-info is-large is-loading"></a> : <Tweet tweets={this.state.tweets} />}
           </div>
         </div>
       );
