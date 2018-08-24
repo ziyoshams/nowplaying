@@ -2,10 +2,13 @@ const client = require('./twitter');
 
 function postTweet(content) {
   return new Promise((resolve, reject) => {
-    client.post('statuses/update', { status: `${content.comment} ${content.video_url} #nowplaying` }, function(error, tweet) {
+    client.post('statuses/update', { status: `${content.comment} ${content.video_url} #nowplaying`}, function(error, tweet) {
       if (!error) {
-        console.log('TWEET POSTED', tweet);
-        resolve(tweet);
+        resolve({
+          id: tweet.id_str,
+          name: tweet.user.screen_name,
+          url: tweet.entities.urls.pop()
+        });
       } else {
         reject(error);
       }

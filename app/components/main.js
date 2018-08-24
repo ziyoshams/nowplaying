@@ -1,37 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import Tweet from './tweet';
 import Form from './form';
-import Info from './info'
+import Info from './info';
+
+import { getAllTweets } from '../store';
 
 class Main extends Component {
   constructor() {
     super();
-    this.state = {
-      tweets: [],
-      location: '',
-      error: '',
-      initialRender: true
-    };
   }
 
   async componentWillMount() {
     try {
       let positions = await this.getPosition();
-      console.log(positions);
-      let { data } = await axios.get(`/tweets/${positions[0]}/${positions[1]}`);
-      this.setState({
-        tweets: data.tweets,
-        location: data.location,
-        initialRender: false
-      });
-
-      twttr.widgets.load();
-    } catch (error) {
-      this.setState({
-        error: 'Something is not Right'
-      });
-    }
+      this.props.getTweets(positions[0], positions[1]);
+    } catch (error) {}
   }
 
   getPosition() {
@@ -46,18 +30,36 @@ class Main extends Component {
   }
 
   render() {
-    if (!this.state.error) {
-      return (
-        <div className="container">
-          <Info location={this.state.location}/>
-          <Form />
-          <div id="tweets" className="tweets">
-            {this.state.initialRender ? <a className="button is-info is-large is-loading"></a> : <Tweet tweets={this.state.tweets} />}
-          </div>
+    return (
+      <div className="container">
+        <Info location={this.props.location} />
+        <Form />
+        <div id="tweets" className="tweets">
+          {this.props.initialRender ? (
+            <a className="button is-info is-large is-loading" />
+          ) : (
+            <Tweet tweets={this.props.tweets} />
+          )}
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 
-export default Main;
+const mapStateToProps = state => {
+  return {
+    tweets: state.tweets,
+    location: state.location,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getTweets: (long, lat) => dispatch(getAllTweets(long, lat)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

@@ -16,7 +16,7 @@ const Tweet = props => {
             )}
           </div>
           <div className="tweet_side">
-            <blockquote className="twitter-tweet" data-lang="en">
+            <blockquote className="twitter-tweet" data-lang="en" data-cards="hidden">
               <a href={`https://twitter.com/${tweet.name}/status/${tweet.id}`} />
             </blockquote>
           </div>

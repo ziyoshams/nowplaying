@@ -7,7 +7,9 @@ const PORT = process.env.PORT || 3033;
 const getTweets = require('./utils/getTweets');
 const postTweet = require('./utils/postTweet');
 const geoCode = require('./utils/getGeocode');
+const volleyball = require('volleyball');
 
+app.use(volleyball);
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,18 +26,18 @@ app.get('/tweets/:long/:lat', async (req, res) => {
   try {
     let tweets = await getTweets(long, lat);
     res.send({ tweets, location });
-  } catch (error) {
-    res.status(400).send('Something went wrong.');
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 
 app.post('/tweet', async (req, res) => {
+  console.log('this is what being posted', req.body);
   try {
-    const response = postTweet(req.body);
-    console.log('REsponse on the route', response);
+    const response = await postTweet(req.body);
     res.send(response);
-  } catch (error) {
-    res.status(400).send('Something went wrong!');
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 

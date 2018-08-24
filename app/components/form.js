@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { postNewTweet } from '../store';
 
 class Form extends Component {
   constructor() {
@@ -15,9 +16,7 @@ class Form extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    console.log('sending', this.state);
-    let data = await axios.post('/tweet', this.state);
-    console.log('response from the server', data);
+    this.props.newTweet(this.state);
   }
 
   handleChange(evt) {
@@ -68,4 +67,13 @@ class Form extends Component {
   }
 }
 
-export default Form;
+const mapDispatchToProps = dispatch => {
+  return {
+    newTweet: data => dispatch(postNewTweet(data))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Form);
